@@ -2,8 +2,6 @@
 title: "Campus Activities"
 ---
 
-About this site
+Here is what I am involved in on Campus
 
-```{r}
-1 + 1
-```
+List of things here
