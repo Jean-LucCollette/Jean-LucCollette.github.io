@@ -11,3 +11,5 @@ To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
 ```
 
 Testing out if this actually works when editing
+
+Here is my [LinkedIn Page](https://www.linkedin.com/in/jean-luccollette/)
