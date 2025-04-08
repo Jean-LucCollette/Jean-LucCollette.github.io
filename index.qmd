@@ -1,23 +1,24 @@
 ---
-title: "Jean-LucCollette.github.io"
+title: ""
+about:
+  id: intro-heading
+  template: trestles
+  image-width: 20em
+  image-shape: round
+  image: JeanLucPhoto.jpg
+  links:
+    - icon: envelope
+      href: mailto:collet3@stolaf.edu
+    - icon: instagram
+      href: https://twitter.com/bcheggeseth
+    - icon: github
+      href: https://github.com/bcheggeseth
 ---
-
-This is a Quarto website.
-
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
-
-```{r}
-1 + 1
-```
 
 Testing out if this actually works when editing
 
 Here is my [LinkedIn Page](https://www.linkedin.com/in/jean-luccollette/)
 
-
-
 Again more testing here
-
-
 
 To build a website, build, commit, push
