@@ -15,4 +15,9 @@ Testing out if this actually works when editing
 Here is my [LinkedIn Page](https://www.linkedin.com/in/jean-luccollette/)
 
 
+
 Again more testing here
+
+
+
+To build a website, build, commit, push
