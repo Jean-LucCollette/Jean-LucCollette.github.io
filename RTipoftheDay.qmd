@@ -1,0 +1,195 @@
+---
+title: "TinyTable"
+subtitle: "Make better looking tables easily"
+format:
+  revealjs: 
+    slide-number: true
+    chalkboard: 
+      buttons: false
+    preview-links: auto
+    css: styles.css
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r Libraries}
+
+library(tidyverse)
+library(tinytable)
+
+mtcars <- mtcars |>
+  mutate(model = c("Mazda RX4", "Mazda RX4 Wag", "Datsun 710", "Hornet 4 Drive", "Hornet Sportabout", "Valiant", "Duster 360", "Merc 240D", "Merc 230", "Merc 280", "Merc 280C", "Merc 450SE", "Merc450SL", "Merc450SLC", "Cadillac Fleetwood", "Lincoln Continental", "Chrysler Imperial", "Fiat 128", "Honda Civic", "Toyota Corolla", "Toyota Corona", "Dodge Challenger", "AMC Javelin", "Camaro Z28", "Pontiac Firebird", "Fiat x1-9", "Porsche 914-2", "Lotus Europa", "Ford Pantera L", "Ferrari Dino", "Maserati Bora", "Volvo 142E") ) |>
+  relocate(model, .before = mpg)
+
+```
+
+
+
+## What is TinyTable
+
+TinyTable helps to make simple and customizable tables easily
+
+-   Makes Data Separate from the table
+-   Flexible
+-   Lightweight
+
+
+##
+
+```{r}
+title <- "Table 1: Variety of Options"
+cardata <- mtcars[1:5, 1:5]
+
+tt(cardata, 
+   caption = title, 
+   width = c(.6,.2,.2,.2,.1),
+   theme = "void") |> 
+ style_tt(
+   i = 1:1,
+   j = 1:2,
+   background = "darkcyan",
+   color = "white",
+   bold = TRUE) |>
+  style_tt(
+    i = 3,
+    j = 3,
+    background = "black",
+    color = "white"
+  ) |>
+  style_tt(
+    i = 2:3,
+    j = c(1, 3, 4),
+    italic = TRUE,
+    color = "red") |>
+  style_tt(
+    i = 0, 
+    line = "t", 
+    line_color = "orange", 
+    line_width = 0.4) |>
+  style_tt(
+    i = 1, 
+    line = "t", 
+    line_color = "purple", 
+    line_width = 0.2) |>
+  style_tt(
+    i = 3:4,
+    j = 3:4,
+    line = "tblr",
+    line_width = 0.4,
+    line_color = "darkgreen"
+)
+
+
+
+  
+```
+
+## tt()
+``` r
+cardata <- mtcars[1:5, 1:5]
+
+tt(cardata)
+
+```
+```{r}
+cardata <- mtcars[1:5, 1:5]
+tt(cardata)
+```
+
+
+## 
+``` r
+cardata <- mtcars[1:5, 1:5]
+
+tt(cardata, caption = "Table 2: Basic", width = c(2,1,1,1,1), theme = "striped")
+
+```
+```{r}
+cardata <- mtcars[1:5, 1:5]
+
+tt(cardata, caption = "Table 2: Basic", width = c(3,1,1,1,1), theme = "striped")
+
+```
+
+## Functions in TinyTable
+- format_tt() 
+- style_tt()
+- save_tt()
+- & many more
+
+## format_tt()
+- Helps to format different types of data like numbers & dates
+
+```{r} 
+format <- data.frame(
+  num = c(5.3855, 270.385, 0.0136356),
+  date = as.Date(sample(1:1000, 3), origin = "2002-01-01"),
+  tf = c(TRUE, FALSE, TRUE),
+  large_num = c(90000000, 8500000000, 7900000000000)
+)
+
+tt(format)
+```
+
+## Formatted
+
+``` r 
+tt(format) |> 
+  format_tt(j = 1:3, digits = 2, date = "%B %d, %Y", bool = tolower) |>
+  format_tt(j = 4, digits = 2, num_suffix = TRUE)
+
+```
+
+```{r} 
+tt(format) |> format_tt(
+        j = 1:3, digits = 2, date = "%B %d, %Y", bool = tolower) |>
+  format_tt(j = 4, digits = 2, num_suffix = TRUE)
+
+```
+
+## Functions
+
+```{r}
+cars <- mtcars[2:6, 2:6]
+
+tt(cars)
+```
+
+## Functions
+
+``` r
+tt(cars) |>
+format_tt(j = "mpg", fn = function(x) paste(x, "mi/gal")) |>
+format_tt(j = "drat", fn = \(x) signif(x, 2))
+```
+
+```{r}
+cars <- mtcars[2:6, 2:6]
+
+tt(cars) |>
+format_tt(j = "mpg", fn = function(x) paste(x, "mi/gal")) |>
+format_tt(j = "drat", fn = \(x) signif(x, 2))
+```
+
+## style_tt()
+
+Highlight important datapoints inside
+
+## Save your own themes
+
+At the end you can save your own now
+
+## Save your tables
+
+Lastly, tinytable lets you save your tables to several options
+
+``` r
+tt(x) |> save_tt("path/to/file.png")
+tt(x) |> save_tt("path/to/file.pdf")
+tt(x) |> save_tt("path/to/file.docx")
+tt(x) |> save_tt("path/to/file.html")
+tt(x) |> save_tt("path/to/file.tex")
+tt(x) |> save_tt("path/to/file.md")
+```
+
+
