@@ -1,87 +1,10 @@
 [
   {
-    "objectID": "RTipoftheDay.html#what-is-tinytable",
-    "href": "RTipoftheDay.html#what-is-tinytable",
-    "title": "TinyTable",
-    "section": "What is TinyTable",
-    "text": "What is TinyTable\nTinyTable helps to make simple and customizable tables easily\n\nMakes Data Separate from the table\nFlexible\nLightweight"
-  },
-  {
-    "objectID": "RTipoftheDay.html#section",
-    "href": "RTipoftheDay.html#section",
-    "title": "TinyTable",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Jean-LucCollette.github.io",
     "section": "",
-    "text": "Table 1: Variety of Options\n              \n                model\n                mpg\n                cyl\n                disp\n                hp\n              \n        \n        \n        \n                \n                  Mazda RX4\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Mazda RX4 Wag\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Datsun 710\n                  22.8\n                  4\n                  108\n                  93\n                \n                \n                  Hornet 4 Drive\n                  21.4\n                  6\n                  258\n                  110\n                \n                \n                  Hornet Sportabout\n                  18.7\n                  8\n                  360\n                  175"
-  },
-  {
-    "objectID": "RTipoftheDay.html#tt",
-    "href": "RTipoftheDay.html#tt",
-    "title": "TinyTable",
-    "section": "tt()",
-    "text": "tt()\ncardata &lt;- mtcars[1:5, 1:5]\n\ntt(cardata)\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                model\n                mpg\n                cyl\n                disp\n                hp\n              \n        \n        \n        \n                \n                  Mazda RX4\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Mazda RX4 Wag\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Datsun 710\n                  22.8\n                  4\n                  108\n                  93\n                \n                \n                  Hornet 4 Drive\n                  21.4\n                  6\n                  258\n                  110\n                \n                \n                  Hornet Sportabout\n                  18.7\n                  8\n                  360\n                  175"
-  },
-  {
-    "objectID": "RTipoftheDay.html#section-1",
-    "href": "RTipoftheDay.html#section-1",
-    "title": "TinyTable",
-    "section": "",
-    "text": "cardata &lt;- mtcars[1:5, 1:5]\n\ntt(cardata, caption = \"Table 2: Basic\", width = c(2,1,1,1,1), theme = \"striped\")\n\n\n\n\n    \n\n    \n    \n      \n        \n        Table 2: Basic\n              \n                model\n                mpg\n                cyl\n                disp\n                hp\n              \n        \n        \n        \n                \n                  Mazda RX4\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Mazda RX4 Wag\n                  21.0\n                  6\n                  160\n                  110\n                \n                \n                  Datsun 710\n                  22.8\n                  4\n                  108\n                  93\n                \n                \n                  Hornet 4 Drive\n                  21.4\n                  6\n                  258\n                  110\n                \n                \n                  Hornet Sportabout\n                  18.7\n                  8\n                  360\n                  175"
-  },
-  {
-    "objectID": "RTipoftheDay.html#functions-in-tinytable",
-    "href": "RTipoftheDay.html#functions-in-tinytable",
-    "title": "TinyTable",
-    "section": "Functions in TinyTable",
-    "text": "Functions in TinyTable\n\nformat_tt()\nstyle_tt()\nsave_tt()\n& many more"
-  },
-  {
-    "objectID": "RTipoftheDay.html#format_tt",
-    "href": "RTipoftheDay.html#format_tt",
-    "title": "TinyTable",
-    "section": "format_tt()",
-    "text": "format_tt()\n\nHelps to format different types of data like numbers & dates\n\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                num\n                date\n                tf\n                large_num\n              \n        \n        \n        \n                \n                  5.3855000\n                  2003-07-01\n                  TRUE\n                  9.0e+07\n                \n                \n                  270.3850000\n                  2002-02-19\n                  FALSE\n                  8.5e+09\n                \n                \n                  0.0136356\n                  2002-07-03\n                  TRUE\n                  7.9e+12"
-  },
-  {
-    "objectID": "RTipoftheDay.html#formatted",
-    "href": "RTipoftheDay.html#formatted",
-    "title": "TinyTable",
-    "section": "Formatted",
-    "text": "Formatted\ntt(format) |&gt; \n  format_tt(j = 1:3, digits = 2, date = \"%B %d, %Y\", bool = tolower) |&gt;\n  format_tt(j = 4, digits = 2, num_suffix = TRUE)\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                num\n                date\n                tf\n                large_num\n              \n        \n        \n        \n                \n                  5.386\n                  July 01, 2003\n                  true\n                  90M\n                \n                \n                  270.385\n                  February 19, 2002\n                  false\n                  8.5B\n                \n                \n                  0.014\n                  July 03, 2002\n                  true\n                  7.9T"
-  },
-  {
-    "objectID": "RTipoftheDay.html#functions",
-    "href": "RTipoftheDay.html#functions",
-    "title": "TinyTable",
-    "section": "Functions",
-    "text": "Functions\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                mpg\n                cyl\n                disp\n                hp\n                drat\n              \n        \n        \n        \n                \n                  21.0\n                  6\n                  160\n                  110\n                  3.90\n                \n                \n                  22.8\n                  4\n                  108\n                  93\n                  3.85\n                \n                \n                  21.4\n                  6\n                  258\n                  110\n                  3.08\n                \n                \n                  18.7\n                  8\n                  360\n                  175\n                  3.15\n                \n                \n                  18.1\n                  6\n                  225\n                  105\n                  2.76"
-  },
-  {
-    "objectID": "RTipoftheDay.html#functions-1",
-    "href": "RTipoftheDay.html#functions-1",
-    "title": "TinyTable",
-    "section": "Functions",
-    "text": "Functions\ntt(cars) |&gt;\nformat_tt(j = \"mpg\", fn = function(x) paste(x, \"mi/gal\")) |&gt;\nformat_tt(j = \"drat\", fn = \\(x) signif(x, 2))\n\n\n\n\n    \n\n    \n    \n      \n        \n        \n              \n                mpg\n                cyl\n                disp\n                hp\n                drat\n              \n        \n        \n        \n                \n                  21 mi/gal\n                  6\n                  160\n                  110\n                  3.9\n                \n                \n                  22.8 mi/gal\n                  4\n                  108\n                  93\n                  3.8\n                \n                \n                  21.4 mi/gal\n                  6\n                  258\n                  110\n                  3.1\n                \n                \n                  18.7 mi/gal\n                  8\n                  360\n                  175\n                  3.2\n                \n                \n                  18.1 mi/gal\n                  6\n                  225\n                  105\n                  2.8"
-  },
-  {
-    "objectID": "RTipoftheDay.html#style_tt",
-    "href": "RTipoftheDay.html#style_tt",
-    "title": "TinyTable",
-    "section": "style_tt()",
-    "text": "style_tt()\nHighlight important datapoints inside"
-  },
-  {
-    "objectID": "RTipoftheDay.html#save-your-own-themes",
-    "href": "RTipoftheDay.html#save-your-own-themes",
-    "title": "TinyTable",
-    "section": "Save your own themes",
-    "text": "Save your own themes\nAt the end you can save your own now"
-  },
-  {
-    "objectID": "RTipoftheDay.html#save-your-tables",
-    "href": "RTipoftheDay.html#save-your-tables",
-    "title": "TinyTable",
-    "section": "Save your tables",
-    "text": "Save your tables\nLastly, tinytable lets you save your tables to several options\ntt(x) |&gt; save_tt(\"path/to/file.png\")\ntt(x) |&gt; save_tt(\"path/to/file.pdf\")\ntt(x) |&gt; save_tt(\"path/to/file.docx\")\ntt(x) |&gt; save_tt(\"path/to/file.html\")\ntt(x) |&gt; save_tt(\"path/to/file.tex\")\ntt(x) |&gt; save_tt(\"path/to/file.md\")"
+    "text": "Welcome to my Website!\nAgain more testing here\nTo build a website, build, commit, push"
   },
   {
     "objectID": "about.html",
@@ -89,12 +12,5 @@
     "title": "Campus Activities",
     "section": "",
     "text": "Here is what I am involved in on Campus\nList of things here"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Jean-LucCollette.github.io",
-    "section": "",
-    "text": "Testing out if this actually works when editing\nHere is my LinkedIn Page\nAgain more testing here\nTo build a website, build, commit, push"
   }
 ]

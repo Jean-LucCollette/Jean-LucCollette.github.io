@@ -8,16 +8,16 @@ about:
   image: JeanLucPhoto.jpg
   links:
     - icon: envelope
-      href: mailto:collet3@stolaf.edu
-    - icon: instagram
-      href: https://twitter.com/bcheggeseth
+      href: https://www.linkedin.com/in/jean-luccollette/
+    - icon: linstagram
+      href: https://www.instagram.com/jeanlucollette/
     - icon: github
-      href: https://github.com/bcheggeseth
+      href: https://github.com/Jean-LucCollette/Jean-LucCollette.github.io
 ---
 
-Testing out if this actually works when editing
+Welcome to my Website!
 
-Here is my [LinkedIn Page](https://www.linkedin.com/in/jean-luccollette/)
+Testing more here
 
 Again more testing here
 
