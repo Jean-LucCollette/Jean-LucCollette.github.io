@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Data Source Links:
+Data Source Links: 
 
 State Level Poverty Levels 
 https://data.ers.usda.gov/reports.aspx?ID=4040
