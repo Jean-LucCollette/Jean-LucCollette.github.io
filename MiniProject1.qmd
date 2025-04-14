@@ -7,7 +7,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-Data Source Links: 
+Data Source Links : 
 
 State Level Poverty Levels 
 https://data.ers.usda.gov/reports.aspx?ID=4040
@@ -15,7 +15,8 @@ https://data.ers.usda.gov/reports.aspx?ID=4040
 State Level Population
 https://data.ers.usda.gov/reports.aspx?ID=4049
 
-Health Insurance Coverage of the Total Population
+Health Insurance Coverage of the Total Population.
+
 https://www.kff.org/other/state-indicator/total-population/?currentTimeframe=0&sortModel=%7B%22colId%22:%22Location%22,%22sort%22:%22asc%22%7D
 
 
