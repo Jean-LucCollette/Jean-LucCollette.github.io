@@ -9,7 +9,7 @@ about:
   links:
     - icon: envelope
       href: https://www.linkedin.com/in/jean-luccollette/
-    - icon: instagram
+    - icon: twitter
       href: https://www.instagram.com/jeanlucollette/
     - icon: github
       href: https://github.com/Jean-LucCollette/Jean-LucCollette.github.io
