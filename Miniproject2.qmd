@@ -1,0 +1,151 @@
+---
+title: "Miniproject2"
+---
+
+Data Sources:
+https://www.sports-reference.com/cbb/seasons/men/1993-advanced-school-stats.html
+https://www.sports-reference.com/cbb/seasons/men/2024.html
+
+Motivation:
+For our project, we used data from the Sports Reference website. March Madness refers to the annual NCAA college basketball tournament which typically happens in March. With “March Madness” being a popular event that attracts the excitement of sports fans, and can potentially line the pockets of many gamblers, it serves as an interesting exercise to analyze the performance of the different teams who participate. We are compiling a dataset of both the conference performance and individual school performance. 
+
+In order to do this, we used the `rvest` and `polite` package in order to scrape the contents of the site and build our dataset. Before scraping however, we verified using the `paths_allowed` function to check the `robots.txt` which gave permission for scraping. We created functions in order to scrape the site over multiple years in order to gain a broader understanding of how performance has changed over time. Our analysis may provide insights into what teams may be standout picks based on previous performance and may highlight strengths and weaknesses that lie in a team alongside variables that affect their performance. We could also analyse what conferences have historically been the best and what that may mean with many conferences changing in recent years. 
+
+
+```{r}
+#| include: FALSE
+
+library(tidyverse)
+library(stringr)
+library(rvest)
+library(polite)
+library(sf)
+library(maps)
+library(viridis)
+library(leaflet)
+library(htmltools)
+
+library(httr2)
+library(httr)
+
+library(janitor)
+
+```
+
+
+# Individual School Performance
+
+
+```{r}
+
+# check that scraping is allowed
+robotstxt::paths_allowed("https://www.sports-reference.com/cbb/seasons/men/1993-advanced-school-stats.html")
+
+# Step 1: Download the HTML and turn it into an XML file with read_html()
+basketball_site <- read_html("https://www.sports-reference.com/cbb/seasons/men/1993-advanced-school-stats.html")
+```
+
+
+```{r}
+#Main function to create list
+basketball_stats <- function(year_list) {
+  
+ basketball_stats_data_list <- purrr::map(year_list, ~ basketball_scrape(year = .x) %>% mutate(year = .x))
+ 
+basketball_stats_all_years <- list_rbind(basketball_stats_data_list)
+
+return(basketball_stats_all_years)
+
+}
+
+
+#Smaller function to grab data 
+
+basketball_scrape <- function(year) {
+  
+  session <- bow(str_c("https://www.sports-reference.com/cbb/seasons/", year,"-advanced-school-stats.html"), force = TRUE)
+  
+title_temp <- html_nodes(basketball_site, css = "table") #Look for tables
+
+#The table of interest is the first one so we use [[1]]
+Basketball_table <- html_table(title_temp, header = T, fill = T)[[1]] %>%  row_to_names(row_number = 1) %>% 
+  clean_names() %>%  
+  select(-c(starts_with("na"))) #the table has na cols so we clean names then drop those cols
+
+return(Basketball_table)
+}
+
+test<- basketball_scrape("2000") # test data for the smaller function
+test
+
+years<- c("2002","2001")
+test2 <- basketball_stats(years) #test data for larger function
+```
+
+
+
+
+# Conference Level performance
+
+```{r}
+# check that scraping is allowed
+robotstxt::paths_allowed("https://www.sports-reference.com/cbb/seasons/men/2024.html")
+
+# 1 - read as an html
+nih <- read_html("https://www.sports-reference.com/cbb/seasons/men/2024.html")
+
+# 2 - extract the table
+title_temp <- html_nodes(nih, css = "table")
+title_temp
+
+# 3: html_table() - making a table and finding the right one
+html_table(title_temp, header = TRUE, fill = TRUE)    # find the right table
+Basketball_table <- html_table(title_temp, header = TRUE, fill = TRUE)[[1]]
+Basketball_table <- Basketball_table |>
+  mutate(year = 2025)
+Basketball_table
+```
+
+
+```{r}
+# function for a given year conference statistics
+basketball_scrape_c <- function(year) {
+  
+  url <- str_c("https://www.sports-reference.com/cbb/seasons/men/", year, ".html")
+  robotstxt::paths_allowed(url) # test to ensure it is fine to scrape
+  
+  nih <- read_html(url)
+  
+  title_temp <- html_nodes(nih, css = "table")
+  
+  Basketball_table <- html_table(title_temp, header = TRUE, fill = TRUE)[[1]] # selecting the table we want
+  Basketball_table <- Basketball_table |>
+  mutate(year = year) # adding year as a column
+  
+Basketball_table
+
+}
+
+test3 <- basketball_scrape_c(2022)
+test3
+
+
+# Function for multiple years in data
+
+conference_years <- function(year_list) {
+  
+ conference_data_list <- purrr::map(year_list, ~ basketball_scrape_c(year = .x) %>% mutate(year = .x))
+ 
+conference_stats_all_years <- list_rbind(conference_data_list)
+
+conference_stats_all_years
+
+}
+
+
+years <- c("2018","2019") # testing the code for multiple years
+test4 <- conference_years(years) # testing the new function
+test4
+
+```
+

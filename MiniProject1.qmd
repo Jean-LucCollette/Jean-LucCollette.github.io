@@ -32,15 +32,15 @@ library(mapproj)
 
 # Loading Data + changing state to lowercase
 poverty_data <- read_csv("Datastat272Miniproject1poverty2.csv")
-poverty_data
+head(poverty_data)
 poverty_data <- poverty_data |>
   mutate(state = str_to_lower(state))
 
-poverty_data
+head(poverty_data)
 
 # Loading us state map data
 us_states <- map_data("state")
-us_states
+head(us_states)
 
 
 # Loading Shape File State Map Data (taking out unneeded regions)
@@ -53,7 +53,7 @@ states <- states |>
                        "District of Columbia"))) |>
   mutate(name = str_to_lower(name))
   
-states
+head(states)
 ```
 
 
