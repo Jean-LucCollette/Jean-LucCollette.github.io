@@ -5,7 +5,7 @@ about:
   template: trestles
   image-width: 20em
   image-shape: round
-  image: JeanLucPhoto.jpg
+  image: Images/JeanLucPhoto.jpg
   links:
     - icon: envelope
       href: https://www.linkedin.com/in/jean-luccollette/
