@@ -15,10 +15,27 @@ about:
       href: https://github.com/Jean-LucCollette/Jean-LucCollette.github.io
 ---
 
-Welcome to my Website!
+## Jean-Luc Collette
 
-Testing more here
+Senior Quantitative Economics Major - Statistics and Data Science Concentration, Finance Emphasis
 
-Again more testing here
+U.S. Bank Specialty Credit Analyst
 
-To build a website, build, commit, push
+### Education
+
+BA in Quantitative Economics, Concentration in Statistics and Data Science with a Finance emphasis 
+
+2025 | St. Olaf College
+
+High School Diploma
+2021 | Edina High School
+
+### Get in touch with me!
+
+**Phone:** 763-453-9730
+
+**Email:** [collet3@stolaf.edu](mailto:collet3@stolaf.edu)
+
+**Address:** 6704 Rosemary Lane, Edina, MN 55439
+
+
