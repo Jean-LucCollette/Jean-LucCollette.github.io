@@ -12,6 +12,7 @@ website:
       - MiniProject1.qmd
       - Miniproject2.qmd
       - GlobalSemester.qmd
+      - Miniproject4.qmd
 
 format:
   html:

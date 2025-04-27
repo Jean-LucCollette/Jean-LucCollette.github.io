@@ -1,0 +1,213 @@
+---
+title: "Mini Project 4"
+editor_options: 
+  chunk_output_type: console
+---
+ 
+Jeopardy! is a long-running game show with a reversed format in which an answer is given first as a clue where the contestant has to come up with a question to that answer. The show is at times dubbed as America's Favorite Quiz Show. It has run for over six-decades with over 8,000 episodes making it one of the longest-running game shows in television history. 
+
+Among the record holders, Ken Jennings holds the record for the longest winning streak at 74 games, earning over 2.5 million during regular play. James Holzhauer, a professional sports gambler, set records for single-game winnings, raking in 131,127 in one match and earning over $2.4 million in just 32 games. 
+
+Holzhauer is also known for using a highly analytical and statistical approach to how to play the game show. He studied question patterns, clue values, and how to find Daily Doubles effectively. This led to an untraditional way of playing jeopardy where he would ask for questions randomly around the board instead of column-by-column.
+
+In this project, I will try to analyze historical Jeopardy Questions to see if the text itself has any patterns among nearly 80% of questions before 2011. Does length of question differ from normal to double jeopardy to final jeopardy? Are easier questions different sentimentally than harder ones? Lets explore!
+
+
+This data was sourced from [this reddit post](https://www.reddit.com/r/datasets/comments/1uyd0t/200000_jeopardy_questions_in_a_json_file/) 
+
+I found this jeopardy data from [this list of text data sets](https://github.com/niderhoff/nlp-datasets)
+
+My github repository can be found on the home page
+
+```{r}
+
+library(tidyverse)
+library(tidytext)
+library(textdata)
+library(wordcloud)
+library(wordcloud2)
+library(viridis)
+library(ggthemes)
+library(gutenbergr)
+library(RCurl)
+
+```
+
+```{r}
+
+library(readr)
+# load data
+JEOPARDY_CSV <- read_csv("~/RStudioProjectGit/Jean-LucCollette.github.io/JEOPARDY_CSV.csv")
+
+# tidy data a bit (remove image questions)
+jeopardy <- JEOPARDY_CSV |>
+  mutate(`Air Date` = mdy(`Air Date`)) |>
+  filter(!str_detect(Question, "href"),
+         !str_detect(Question, "_")) # 1st regular expression
+
+head(jeopardy)
+
+# have a word column instead of by long question
+jeopardy_tidy <- jeopardy |>
+  unnest_tokens(output = word, input = Question) |> # 
+  mutate(Value = as.numeric(gsub("\\$", "", Value)))
+
+# lower case
+jeopardy_tidy <- jeopardy_tidy |>
+  mutate(word = str_to_lower(word)) # 1st str_function
+
+head(jeopardy_tidy)
+```
+
+
+# Sentiment by question value
+
+Here is a graph of average word sentiment by question value for each. We can see that they are very similar but do vary between almost zero sentiment and higher values. This is likely influenced by "Daily Double" Questions where contestants can answer and bet how much they would like to wager to win before seeing the questions. Still, all of the sentiments are above or around zero showing that the majority of Jeopardy questions have positive sentiment with perhaps a slight decrease as questions get harder. 
+
+```{r}
+# Graph 1
+
+#sentiments
+afinn_sentiments <- get_sentiments(lexicon = "afinn")
+
+
+1# plot for sentiment
+jeopardy_tidy |>
+  filter(Round != "Final Jeopardy!",
+         Round != "Tiebreaker") |>
+  inner_join(afinn_sentiments) |>
+  count(Round, index = Value, value) |>
+  mutate(sentiment = value*n) |>
+  group_by(index) |>
+  summarize(Round = Round,
+            sentiment = mean(sentiment),
+            Question_Value = index) |>
+  ggplot(aes(x = Question_Value, y = sentiment, color = Round)) +
+    geom_point() +
+    facet_wrap(~Round) +
+  labs(title = "Jeopardy! Round average word sentiment",
+       y = "Sentiment",
+       x = "Question Value",
+       color = "Round")
+```
+
+
+# Most Distinguished Words by Round
+
+By round, here is a chart of the most unique words by Round of Jeopardy! by using the TF-IDF statistic. It is clear from these graphs that regular Jeopardy! has the least unique values given closer statistics to 0, while Double Jeopardy! and Final Jeopardy! have more distinct words. This may be due to Final Jeopardy! having less questions overall, but still shows that questions may get slightly harder as the game goes on. 
+
+```{r}
+# counting the words and removing "___"
+wordcount_jeopardy <- jeopardy_tidy |>
+  mutate(word = str_to_title(word)) |> # 2nd str_function
+   filter(Round != "Tiebreaker",
+          !str_detect(word, "\\_"),
+          !str_detect(word, "__"))|>
+  count(Round, word) |>
+  anti_join(stop_words) |>
+  group_by(Round)
+
+# making TF_IDF info
+jeopardy_tidy_tf <- wordcount_jeopardy |>
+  bind_tf_idf(word, Round, n) |>
+  arrange(-tf_idf)
+```
+
+
+```{r}
+# Graph 2, text analysis 1
+
+jeopardy_tidy_tf |>
+  group_by(Round) |>
+  arrange(desc(tf_idf)) |>
+  slice_max(tf_idf, n = 10) |>
+  ungroup() |>
+  ggplot(aes(x = fct_reorder(word, tf_idf), y = tf_idf, fill = Round)) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    facet_wrap(~Round, scales = "free") +
+  labs(title = "Most unique words by Round",
+       y = "TF-IDF statistic",
+       x = "Top 10 words")
+```
+
+# Pairs of Words
+
+We can do the same thing with pairs of words by round to see what is most common. Here we see the most common types of questions asked in jeopardy contain "Also called" and "you might" which give scenarios for the answers you are given. Final Jeopardy has some more random combinations. There is data from nearly 6000 shows, of which most contain final jeopardy, so these questions are likely harder and have a different average format to the first two rounds.  Still, for every final jeopardy question, there are 30 of each of Double Jeopardy and Jeopardy. 
+
+
+```{r}
+# 2-word tendencies by round
+jeopardy2word <- jeopardy |>
+     filter(Round != "Tiebreaker",
+          !str_detect(Question, "\\_"), # 2nd regular expression
+          !str_detect(Question, "__"))|>
+  group_by(Round) |>
+  mutate(linenumber = row_number()) |>
+  ungroup() |>
+  unnest_tokens(bigram, Question, token = "ngrams", n = 2) |>
+  filter(bigram != "NA")
+ 
+# TF_IDF statistics
+jeopardy2word_tf_idf <- jeopardy2word |>
+  count(Round, bigram) |>
+  bind_tf_idf(bigram, Round, n) |>
+  arrange(desc(tf_idf)) 
+
+# Graph 3, text analysis 2
+jeopardy2word_tf_idf |>
+  group_by(Round) |>
+  arrange(desc(tf_idf)) |>
+  slice_max(tf_idf, n = 10) |>
+  ungroup() |>
+  ggplot(aes(x = fct_reorder(bigram, tf_idf), y = tf_idf, fill = Round)) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    facet_wrap(~Round, scales = "free")
+```
+
+Let's see what questions "Wanamaker", "suecica", or "Hadna came from and what their answers were. We can also look at what the answers were for the most common 2-word question
+
+```{r}
+# see what answers had "wanamaker"
+jeopardy_tidy |>
+  filter(Round == "Final Jeopardy!") |>
+  filter(str_detect(word, "wanamaker"))
+
+# get the questions
+jeopardy |>
+  filter(Answer == "The customer is always right" | Answer == "The Globe Theatre") |>
+  select(Question)
+```
+
+For wanamaker, we can see there are two separate people with the last name wanamaker had questions asked about them
+
+```{r}
+jeopardy_tidy |>
+  filter(Round == "Final Jeopardy!") |>
+  filter(str_detect(word, "suecica"))
+
+jeopardy |>
+  filter(Answer == "Carolus Linnaeus") |>
+  select(Question)
+```
+
+Here we can see that there were 7 different jeopardy questions asking about Carolus Linnaeus as an answer, but one Final jeopardy round that had plant publications mentioning them. 
+
+```{r}
+jeopardy2word |>
+  filter(Round == "Final Jeopardy!") |>
+  filter(str_detect(bigram, "years service")) # 3rd regular expression
+
+```
+
+As for years service, we see that the answers have famous leaders, representatives, and London which are fairly well known. Let's see how many questions have Benjamin Franklin as an answer
+
+```{r}
+sum(str_count(jeopardy$Answer, "Benjamin Franklin")) # 3rd str_ function
+```
+
+There were 76 questions with Benjamin Franklin as an answer. 
+
+# Final thoughts
+From these graphs and analyses, we can tell that because there are so many Jeopardy! and Double Jeopardy! questions, they have a lot of the same common phrases and ways of asking questions, likely due to subtle tendencies from the writers. Questions from these rounds are seemingly all neutral or positively sentimented over the average of thousands of shows. This could be due to wanting to avoid very negative topics or other harsh language for television. While there definetly are tendencies in Jeopardy questions, there are so many that a good, broad knowledge of many different topics is needed to beat the game and come out on top of opponents.  
